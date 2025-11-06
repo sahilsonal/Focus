@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#7b5cff"/>
+  <title>Focus Friends</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Welcome / Auth-lite -->
+  <div id="welcome" class="screen">
+    <div class="hero-card">
+      <div class="logo">🎓</div>
+      <h1>Focus Friends</h1>
+      <p class="tagline">Focus alone or together — beautifully simple.</p>
+
+      <div class="start-card">
+        <button id="btn-auto" class="btn primary">Start with Auto ID</button>
+        <div class="orline"><span>or</span></div>
+        <button id="btn-google" class="btn ghost" disabled title="Coming in Part 2">Sign in with Google</button>
+        <p class="hint">No signup needed. You can enable Google later for backup.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Shell -->
+  <div id="app" class="screen hidden">
+    <header class="topbar">
+      <div class="left">
+        <div id="avatar" class="avatar"></div>
+        <div class="me">
+          <div contenteditable="true" id="displayName" class="name" spellcheck="false"></div>
+          <div class="sub">Today: <span id="todayTotal">0m</span></div>
+        </div>
+      </div>
+      <nav class="nav">
+        <button id="navTimer" class="tab active">Timer</button>
+        <button id="navHistory" class="tab" disabled title="Part 2">History</button>
+        <button id="navRooms" class="tab" disabled title="Part 3">Rooms</button>
+        <button id="navSettings" class="tab">Settings</button>
+      </nav>
+    </header>
+
+    <main id="view-timer" class="view">
+      <section class="panel timer-panel">
+        <div class="mode-switch">
+          <button class="chip active" data-mode="pomodoro">Pomodoro</button>
+          <button class="chip" data-mode="custom">Custom</button>
+        </div>
+
+        <div id="pomodoroControls" class="mode-card">
+          <div class="grid">
+            <label>Work <input id="pWork" type="number" min="5" max="120" value="25"> min</label>
+            <label>Short Break <input id="pShort" type="number" min="1" max="30" value="5"> min</label>
+            <label>Long Break <input id="pLong" type="number" min="5" max="60" value="15"> min</label>
+            <label>Cycles <input id="pCycles" type="number" min="1" max="12" value="4"></label>
+          </div>
+        </div>
+
+        <div id="customControls" class="mode-card hidden">
+          <div class="grid">
+            <label>Length <input id="cLen" type="number" min="1" max="300" value="50"> min</label>
+            <label>Tag <input id="cTag" type="text" placeholder="e.g., Math / DSA"></label>
+          </div>
+        </div>
+
+        <div class="circle-wrap">
+          <svg viewBox="0 0 120 120" class="ring">
+            <circle cx="60" cy="60" r="54" class="track"/>
+            <circle cx="60" cy="60" r="54" class="progress" stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+          </svg>
+          <div class="circle-center">
+            <div id="timerLabel" class="time">00:00</div>
+            <div id="subLabel" class="substate">Ready</div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="btnStart" class="btn primary">Start</button>
+          <button id="btnPause" class="btn" disabled>Pause</button>
+          <button id="btnStop" class="btn danger" disabled>Stop</button>
+          <div class="spacer"></div>
+          <button id="btnPlus5" class="chip">+5m</button>
+          <button id="btnMinus1" class="chip">-1m</button>
+          <label class="chip">
+            <input id="soundToggle" type="checkbox" checked />
+            Chime
+          </label>
+        </div>
+      </section>
+
+      <section class="panel today-panel">
+        <h3>Today</h3>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-num" id="todaySessions">0</div>
+            <div class="stat-label">Sessions</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" id="todayLongest">0m</div>
+            <div class="stat-label">Longest</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" id="todayMode">Pomodoro</div>
+            <div class="stat-label">Mode</div>
+          </div>
+        </div>
+        <ul id="todayList" class="list"></ul>
+      </section>
+    </main>
+
+    <main id="view-settings" class="view hidden">
+      <section class="panel">
+        <h3>Settings</h3>
+        <div class="settings">
+          <div class="row">
+            <label>Accent color</label>
+            <input id="accentPicker" type="color" value="#7b5cff"/>
+          </div>
+          <div class="row">
+            <label>Reduce motion</label>
+            <input id="reduceMotion" type="checkbox"/>
+          </div>
+          <div class="row">
+            <label>Enable offline (PWA)</label>
+            <button id="btnInstall" class="btn">Install</button>
+          </div>
+          <div class="row">
+            <label>Data</label>
+            <button id="btnClear" class="btn danger">Clear local data</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <audio id="ding" preload="auto" src="data:audio/mp3;base64,//uQZAAAAAAAA..."></audio>
+  <!-- (tiny silent/short chime placeholder; we’ll replace with a nicer tone in Part 2) -->
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
